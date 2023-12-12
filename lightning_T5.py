@@ -34,22 +34,17 @@ class SpeechT5Module(LightningModule):
 
         for i in features:
             features[i] = features[i].to(self.device)
-        outputs = self.model(**features)
-        return outputs
+        return self.model(**features)
 
     def training_step(self, batch, batch_idx):
 
         jp_audio, en_audio = batch
-        output = self(jp_audio, en_audio)
-        
-        return output
+        return self(jp_audio, en_audio)
 
     def validation_step(self, batch, batch_idx):
         jp_audio, en_audio = batch
-        
-        output = self(jp_audio, en_audio)
-        
-        return output
+
+        return self(jp_audio, en_audio)
 
     def configure_optimizers(self):
         return torch.optim.Adam(self.parameters(), lr=1e-4)
